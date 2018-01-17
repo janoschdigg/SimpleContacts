@@ -60,6 +60,8 @@
     font-size: 40px;
 }
 .profilepicture{
+  margin-top: 10px;
+  margin-bottom: 10px;
   position: relative;
   left: 24%;
   width: 200px;
