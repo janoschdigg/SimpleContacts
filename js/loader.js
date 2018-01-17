@@ -99,9 +99,9 @@ function edit_user(clickeduserid) {
         });
         $.get("html/pages/edituser.html", function (data) {
             $("#content").html(data);
-            $("#contact_img").attr("onclick", "");
+            $("#contact_img").attr("onclick", "void(0)");
+            $("#file").attr("onclick", "void(0)");
             $("#content").on("click", "#contact_img", function () {
-                alert("Test");
                 var files = document.getElementById('file').files;
                 $("#file").click().on("change", function () {
                     getBase64(this.files[0], "user");
@@ -160,9 +160,9 @@ function edit_user(clickeduserid) {
                     $("#contact_place").val(contact.place);
                 }
             });
-            $("#contact_img").attr("onclick", "");
+            $("#contact_img").attr("onclick", "void(0)");
+            $("#file").attr("onclick", "void(0)");
             $("#content").on("click", "#contact_img", function () {
-                alert("Test");
                 var files = document.getElementById('file').files;
                 $("#file").click().on("change", function () {
                     getBase64(this.files[0], "user");
@@ -301,9 +301,9 @@ function edit_group(clickedgroupid) {
         });
         $.get("html/pages/editgroup.html", function (data) {
             $("#content").html(data);
-            $("#group_img").attr("onclick", "");
+            $("#group_img").attr("onclick", "void(0)");
+            $("#file").attr("onclick", "void(0)");
             $("#content").on("click", "#group_img", function () {
-                alert("Test");
                 var files = document.getElementById('file').files;
                 $("#file").click().on("change", function () {
                     getBase64(this.files[0], "group");
@@ -353,9 +353,9 @@ function edit_group(clickedgroupid) {
                     $("#group_name").val(group.name);
                 }
             });
-            $("#group_img").attr("onclick", "");
+            $("#group_img").attr("onclick", "void(0)");
+            $("#file").attr("onclick", "void(0)");
             $("#content").on("click", "#group_img", function () {
-                alert("Test");
                 var files = document.getElementById('file').files;
                 $("#file").click().on("change", function () {
                     getBase64(this.files[0], "group");
