@@ -8,46 +8,12 @@ var config = {
     , messagingSenderId: "304869102374"
 };
 firebase.initializeApp(config);
-
-//Signup
-function signup()
-{
-    turn_off_clicks();
-
-    $("#login").on("click",setup_signup);
-
-    $("#email").attr("value","");
-    $("#password").attr("value","");
-
-    var bt = document.getElementById('signup');
-    bt.classList.add('unvisible');
-
-    var pw2 = document.getElementById('password2');
-    pw2.classList.add('visible');
-
-   
-}
-
-function setup_signup()
-{
-    var y = $("#password").val();
-    var x = $("#password2").val();
-
-    if(x == y)
-    {
-        create_firebase($("#email").attr("value"),$("#password").attr("value"));
-        create_firstdb();
-        start_firebase($("#email").attr("value"),$("#password").attr("value"));
-    }
-    else{
-        alert("Die Passwörter stimmen nicht überein!");
-    }
-    
-}
-
 //Setup Login
 function setup_login() {
     turn_off_clicks();
+    $("header").html();
+    $("footer").html();
+    $("#content").html();
     $.get("html/pages/login.html", function (data) {
         $("#content").html(data);
     });
@@ -60,25 +26,41 @@ function setup_login() {
             email = null;
             password = null;
             break;
-        case "singup":
+        case "signup":
+            $("#password2").css("display", "block");
+            $("#login").attr("id", "create");
+            break;
+        case "create":
+            check_passwords();
             break;
         }
     });
 }
 
-function start_firebase(email, password) {
+function check_passwords() {
+    var y = $("#password").val();
+    var x = $("#password2").val();
+    if (x == y) {
+        create_account_firebase($("#email").val(), $("#password").val());
+    }
+    else {
+        alert("Die Passwörter stimmen nicht überein!");
+    }
+}
+
+function sign_in_firebase(email, password) {
     firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
         // ...
     });
+}
+
+function start_firebase(email, password) {
+    sign_in_firebase(email, password);
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
-            if (!(user.emailVerified)) {
-                user.sendEmailVerification();
-                alert("Check your Email: " + user.email);
-            }
             console.log(user);
             // User is signed in.
             var useruid = firebase.auth().currentUser.uid;
@@ -98,17 +80,35 @@ function start_firebase(email, password) {
     });
 }
 
-function create_firebase(email, password) {
+function create_account_firebase(email, password) {
     firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
         // ...
     });
-    //start_firebase(email, password);
+    create_firstdb(email, password);
+}
+
+function create_firstdb(email, password) {
+    sign_in_firebase(email, password);
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            if (!(user.emailVerified)) {
+                user.sendEmailVerification();
+                alert("Check your Email: " + user.email);
+            }
+            var useruid = user.uid;
+            var JsonData = {
+                useruid: users
+            }
+            firebase.database().ref('users/' + useruid).set(JSON.stringify(JsonData));
+        }
+    });
 }
 
 function sign_out_firebase() {
+    turn_off_clicks();
     firebase.auth().signOut().then(function () {
         // Sign-out successful.
     }).catch(function (error) {
@@ -127,24 +127,12 @@ function save_firebase() {
         }
         else {
             // User is signed out.
-            setup_login();
-        }
-    });
-}
-
-function create_firstdb() {
-    firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
-            var useruid = user.uid;
-            var JsonData = {
-                useruid: users
-            }
-            firebase.database().ref('users/' + useruid).set(JSON.stringify(JsonData));
         }
     });
 }
 var users = new Users(null);
 $(document).ready(function () {
+    turn_off_clicks();
     setup_login();
 });
 /*

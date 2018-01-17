@@ -442,6 +442,7 @@ function add_member(clickedgroupid) {
 }
 
 function turn_off_clicks() {
+    localStorage.clear();
     $("#content").off();
     $("#content").unbind();
     $("header").off();
