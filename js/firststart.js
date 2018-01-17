@@ -40,7 +40,8 @@ function setup_login() {
         case "btl":
             $("#password2").css("display", "none");
             $("#signup").css("display", "block");
-            $("#create").css("width", "45%");
+            $("#create").css("width", "91%");
+            $("#signup").css("width", "91%");
             $("#signup").css("right", "-5%");
             $("#btl").css("display", "none");
             $("#create").attr("id", "login");
