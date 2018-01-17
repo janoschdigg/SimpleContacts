@@ -1,4 +1,8 @@
 // Alle Klassen welche in der App gebraucht werden
+/*
+Kontakt Klasse
+enthält Kontaktinfos
+*/
 function Kontakt(name, surname, phone, email, road, place, img) {
     this.contactid = 0;
     this.groups = new Array();
@@ -38,7 +42,10 @@ function Kontakt(name, surname, phone, email, road, place, img) {
         this.img = img;
     };
 }
-
+/*
+Gruppen Klasse
+enthält die Gruppeninfos
+*/
 function Group(name, img) {
     this.groupid = 0;
     this.name = name;
@@ -70,7 +77,10 @@ function Group(name, img) {
         this.members = members;
     };
 }
-
+/*
+Users Klasse
+ist die ganze Liste
+*/
 function Users(jsondata) {
     this.jsondata = jsondata;
     this.contactlist = new Array();

@@ -1,4 +1,5 @@
 //Verantwortlich für den Content der geladen wird & Klick Events
+//Mainscreen
 function main_screen() {
     turn_off_clicks();
     $.get("html/header/mainscreen.html", function (data) {
@@ -13,7 +14,6 @@ function main_screen() {
                 $("header").html();
                 $("footer").html();
                 sign_out_firebase();
-                setup_login();
                 break;
             }
         });

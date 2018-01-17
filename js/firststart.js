@@ -28,13 +28,22 @@ function setup_login() {
             break;
         case "signup":
             $("#password2").css("display", "block");
+            $("#btl").css("display", "block");
             $("#signup").css("display", "none");
-
             $("#login").css("width", "91%");
+            $("#btl").css("width", "91%");
             $("#login").attr("id", "create");
             break;
         case "create":
             check_passwords();
+            break;
+        case "btl":
+            $("#password2").css("display", "none");
+            $("#signup").css("display", "block");
+            $("#create").css("width", "45%");
+            $("#signup").css("right", "-5%");
+            $("#btl").css("display", "none");
+            $("#create").attr("id", "login");
             break;
         }
     });
@@ -43,52 +52,24 @@ function setup_login() {
 function check_passwords() {
     var y = $("#password").val();
     var x = $("#password2").val();
-    if (x == y) {
-        create_account_firebase($("#email").val(), $("#password").val());
-    }
-    else {
-        alert("Die Passwörter stimmen nicht überein!");
-    }
-}
-
-function sign_in_firebase(email, password) {
-    firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // ...
-    });
-}
-
-function start_firebase(email, password) {
-    sign_in_firebase(email, password);
-    firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
-            console.log(user);
-            // User is signed in.
-            var useruid = firebase.auth().currentUser.uid;
-            var promise = firebase.database().ref('users/' + useruid).once('value').then(function (snapshot) {
-                //console.log(JSON.parse(snapshot._e.T));
-                var temp = JSON.parse(snapshot._e.T);
-                users = new Users(temp.useruid);
-                console.log(users);
-                main_screen();
-                // ...
-            });
+    if (x.length > 7) {
+        if (x == y) {
+            create_account_firebase($("#email").val(), $("#password").val());
         }
         else {
-            // User is signed out.
-            setup_login();
+            alert("Die Passwörter stimmen nicht überein!");
         }
-    });
+    }
+    else {
+        alert("Passwort muss 8 oder mehr Zeichen enthalten");
+    }
 }
 
 function create_account_firebase(email, password) {
     firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
-        // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
-        // ...
+        console.log(errorCode + " " + errorMessage);
     });
     create_firstdb(email, password);
 }
@@ -110,13 +91,40 @@ function create_firstdb(email, password) {
     });
 }
 
+function sign_in_firebase(email, password) {
+    firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorCode + " " + errorMessage);
+    });
+}
+
+function start_firebase(email, password) {
+    sign_in_firebase(email, password);
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            var useruid = firebase.auth().currentUser.uid;
+            var promise = firebase.database().ref('users/' + useruid).once('value').then(function (snapshot) {
+                var temp = JSON.parse(snapshot._e.T);
+                users = new Users(temp.useruid);
+                main_screen();
+            });
+        }
+    });
+}
+
 function sign_out_firebase() {
     turn_off_clicks();
-    firebase.auth().signOut().then(function () {
-        // Sign-out successful.
-    }).catch(function (error) {
-        // An error happened.
+    firebase.auth().signOut().then(function () {}).catch(function (error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorCode + " " + errorMessage);
     });
+    $("#content").html("");
+    $("header").html("");
+    $("footer").html("");
+    setup_login();
+
 }
 
 function save_firebase() {
@@ -128,43 +136,11 @@ function save_firebase() {
             };
             firebase.database().ref('users/' + useruid).set(JSON.stringify(JsonData));
         }
-        else {
-            // User is signed out.
-        }
     });
 }
+//Leere Kontatkliste erstellen
 var users = new Users(null);
 $(document).ready(function () {
     turn_off_clicks();
     setup_login();
 });
-/*
-firebase.auth().onAuthStateChanged(function (user) {
-    if (user) {
-        console.log(user);
-        //user.sendEmailVerification();
-        // User is signed in.
-        var useruid = user.uid;
-        var JsonData = {
-            useruid: users
-        };
-        var userid = firebase.auth().currentUser.uid;
-        firebase.database().ref('users/' + userid).set(JSON.stringify(JsonData));
-        halloo = firebase.database().ref('users/' + userid).once('value').then(function (snapshot) {
-            //console.log(JSON.parse(snapshot._e.T));
-            var test12 = JSON.parse(snapshot._e.T);
-            //console.log(test12.useruid);
-            var grosserTest = new Users(test12.useruid);
-            console.log(grosserTest);
-        });
-        // ...
-    }
-    else {
-        // User is signed out.
-        // ...
-    }
-});
-*/
-//Firebase
-//Test json datenrückgabe
-//Createing Object falls new User
