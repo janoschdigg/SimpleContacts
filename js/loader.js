@@ -433,6 +433,9 @@ function show_group(clickedgroupid) {
             }
         });
         $("#temp").html();
+        $("#content").on("click", "li", function() {
+          show_user($(this).attr('value'));
+        });
     });
 }
 
