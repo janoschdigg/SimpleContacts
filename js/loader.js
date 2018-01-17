@@ -148,6 +148,7 @@ function edit_user(clickeduserid) {
                     $("#contact_place").val(contact.place);
                 }
             });
+            $("#contact_img").css("cursor", "pointer");
             $("#content").on("click", "#contact_img", function () {
                 var files = document.getElementById('file').files;
                 $("#file").click().on("change", function () {
@@ -287,6 +288,7 @@ function edit_group(clickedgroupid) {
         });
         $.get("html/pages/editgroup.html", function (data) {
             $("#content").html(data);
+            $("#group_img").css("cursor", "pointer");
             $("#content").on("click", "#group_img", function () {
                 var files = document.getElementById('file').files;
                 $("#file").click().on("change", function () {
@@ -337,6 +339,7 @@ function edit_group(clickedgroupid) {
                     $("#group_name").val(group.name);
                 }
             });
+            $("#group_img").css("cursor", "pointer");
             $("#content").on("click", "#group_img", function () {
                 var files = document.getElementById('file').files;
                 $("#file").click().on("change", function () {
@@ -414,7 +417,7 @@ function show_group(clickedgroupid) {
         console.log(users.contactlist);
         users.contactlist.forEach(function (contact, contactindex) {
             if (contact.groups.includes(clickedgroupid)) {
-                $("#contact_name").html( contact.name);
+                $("#contact_name").html(contact.name);
                 $("#contact_surname").html(contact.surname);
                 users.grouplist.forEach(function (group, groupindex) {
                     if (contact.groups.includes(group.groupid)) {
@@ -433,8 +436,8 @@ function show_group(clickedgroupid) {
             }
         });
         $("#temp").html();
-        $("#content").on("click", "li", function() {
-          show_user($(this).attr('value'));
+        $("#content").on("click", "li", function () {
+            show_user($(this).attr('value'));
         });
     });
 }
