@@ -317,6 +317,9 @@ function edit_group(clickedgroupid) {
                     save_firebase();
                     show_grouplist();
                     break;
+                case "edit_group_member_delete":
+
+                    break;
                 }
             });
         });
@@ -439,6 +442,10 @@ function add_member(clickedgroupid) {
             }
         });
     });
+}
+
+function remove_member(clickeduserid, clickedgroupid) {
+    users.getGroup(clickedgroupid).deleteMember(users.getContact(clickeduserid));
 }
 
 function turn_off_clicks() {
