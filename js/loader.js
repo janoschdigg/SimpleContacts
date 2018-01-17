@@ -318,7 +318,7 @@ function edit_group(clickedgroupid) {
                     show_grouplist();
                     break;
                 case "edit_group_member_delete":
-
+                    show_members(clickedgroupid);
                     break;
                 }
             });
@@ -345,6 +345,40 @@ function edit_group(clickedgroupid) {
             });
         });
     }
+}
+
+function show_members(clickedgroupid) {
+    turn_off_clicks();
+    $.get("html/pages/mainscreen.html", function (data) {
+        $("#titel").append(" - Mitglied löschen");
+        $("#content").html(data);
+        $("#temp").html($("#contact_list"));
+        $("ul").html();
+        console.log(users.contactlist);
+        console.log(clickedgroupid);
+        users.contactlist.forEach(function (contact, contactindex) {
+            if (contact.groups.includes(clickedgroupid)) {
+                $("#contact_name").html(contact.surname + ' ' + contact.name);
+                if (contact.img == null) {
+                    $("#contact_img").attr("src", "img/profile.png");
+                }
+                else {
+                    $("#contact_img").attr("src", contact.img);
+                }
+                $("#contact_list").attr("value", contact.contactid);
+                $("#contact_list").clone(true).appendTo($("ul"));
+                $("ul").find($("*")).removeAttr('id');
+            }
+        });
+        $("#temp").html();
+        $("ul").on("click", "li", function () {
+            if ($(this).val() == null) {}
+            else {
+                remove_member($(this).val(), clickedgroupid);
+                show_group(clickedgroupid);
+            }
+        });
+    });
 }
 
 function show_group(clickedgroupid) {
@@ -467,11 +501,3 @@ function turn_off_clicks() {
         };
     });
 }
-/*
-TODO
-- Scrollbare Liste
-- Edit_Group
-- Buttons Hinzufügen
-
-
-*/
