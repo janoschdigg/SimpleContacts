@@ -1,4 +1,34 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
+.logintop{
+  margin-top: 50%;
+}
+.loginbtn{
+  left: 5%;
+  width: 45%;
+  margin-right: 2%;
+}
+.signupbtn{
+  right: -5%;
+  width: 45%;
+}
+.btn{
+  top: 60%;
+  position: fixed;
+  margin-top: 10px;
+  padding: 25px;
+  font-size: 20px;
+  border-radius: 7px !important;
+}
+
+.inputlogin{
+  width: 85%;
+  position: relative;
+  left: 5%;
+  font-size: 17px;
+  padding: 10px;
+  margin-bottom: 5px;
+
+}
 #obenrechts{
   margin-right: 15px;
 }

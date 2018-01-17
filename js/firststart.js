@@ -28,6 +28,9 @@ function setup_login() {
             break;
         case "signup":
             $("#password2").css("display", "block");
+            $("#signup").css("display", "none");
+
+            $("#login").css("width", "91%");
             $("#login").attr("id", "create");
             break;
         case "create":
