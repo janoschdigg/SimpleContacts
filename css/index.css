@@ -9,11 +9,13 @@
   margin-bottom: 5px;
 }
 .signupbtn{
+  top: 60%;
+  top: 61%;
   right: -5%;
   width: 45%;
 }
 .btn{
-  top: 60%;
+  
   position: fixed;
   margin-top: 10px;
   padding: 25px;
@@ -31,7 +33,7 @@
 
 }
 #obenrechts{
-  margin-right: 15px;
+  
 }
 
 .unvisible
@@ -106,9 +108,13 @@
     position: absolute;
     left: 0%;
 }
+.lessright{
+  position: fixed;
+  right: 13%;
+}
 .right{
     position: absolute;
-    right: 0%;
+    right: 2%;
 }
 a{
     text-decoration: none;
