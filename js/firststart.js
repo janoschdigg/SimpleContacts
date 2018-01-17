@@ -116,6 +116,7 @@ function start_firebase(email, password) {
 
 function sign_out_firebase() {
     turn_off_clicks();
+    save_firebase();
     firebase.auth().signOut().then(function () {}).catch(function (error) {
         var errorCode = error.code;
         var errorMessage = error.message;
@@ -124,6 +125,7 @@ function sign_out_firebase() {
     $("#content").html("");
     $("header").html("");
     $("footer").html("");
+    users = new Users(null);
     setup_login();
 
 }

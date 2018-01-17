@@ -30,7 +30,7 @@ function main_screen() {
             var memberof = "";
             users.grouplist.forEach(function (group, groupindex) {
                 if (contact.groups.includes(group.groupid)) {
-                    memberof += group.name;
+                    memberof += group.name + ' ';
                 }
             });
             if (contact.img == null) {
@@ -89,9 +89,15 @@ function edit_user(clickeduserid) {
                     var contact_email = $("#contact_email").val();
                     var contact_road = $("#contact_road").val();
                     var contact_place = $("#contact_place").val();
-                    users.addContact(new Kontakt(contact_name, contact_surname, contact_phone, contact_email, contact_road, contact_place, contact_img));
-                    save_firebase();
-                    main_screen();
+                    console.log(contact_name);
+                    if (validate_user(contact_name, contact_surname, contact_email, contact_phone, contact_road, contact_place)) {
+                        users.addContact(new Kontakt(contact_name, contact_surname, contact_phone, contact_email, contact_road, contact_place, contact_img));
+                        save_firebase();
+                        main_screen();
+                    }
+                    else {
+                        alert("Überprüfe Eingabefelder");
+                    }
                     break;
                 }
             });
@@ -125,13 +131,19 @@ function edit_user(clickeduserid) {
                     var contact_email = $("#contact_email").val();
                     var contact_road = $("#contact_road").val();
                     var contact_place = $("#contact_place").val();
-                    users.contactlist.forEach(function (contact, contactindex) {
-                        if (contact.contactid == $("#contact_id").attr('value')) {
-                            users.contactlist[contactindex].updateContact(contact_name, contact_surname, contact_phone, contact_email, contact_road, contact_place, contact_img);
-                        }
-                    });
-                    save_firebase();
-                    show_user($("#contact_id").attr('value'));
+                    console.log(contact_name);
+                    if (validate_user(contact_name, contact_surname, contact_email, contact_phone, contact_road, contact_place)) {
+                        users.contactlist.forEach(function (contact, contactindex) {
+                            if (contact.contactid == $("#contact_id").attr('value')) {
+                                users.contactlist[contactindex].updateContact(contact_name, contact_surname, contact_phone, contact_email, contact_road, contact_place, contact_img);
+                            }
+                        });
+                        save_firebase();
+                        show_user($("#contact_id").attr('value'));
+                    }
+                    else {
+                        alert("Überprüfe Eingabefelder");
+                    }
                     break;
                 case "edit_user_delete":
                     remove_user(clickeduserid);
@@ -146,7 +158,7 @@ function edit_user(clickeduserid) {
             users.contactlist.forEach(function (contact, contactindex) {
                 if (clickeduserid == contact.contactid) {
                     if (contact.img == null) {
-                        $("#contact_img"),attr("src", "img/profile.png");
+                        $("#contact_img"), attr("src", "img/profile.png");
                     }
                     else {
                         $("#contact_img").attr("src", contact.img);
@@ -196,7 +208,6 @@ function show_user(clickeduserid) {
     turn_off_clicks();
     $.get("html/header/showuser.html", function (data) {
         $("header").html(data);
-        $("#titel").html("Show User");
         $("header").on("click", "span", function () {
             switch ($(this).attr('id')) {
             case "mainscreen":
@@ -217,8 +228,7 @@ function show_user(clickeduserid) {
                     $("#contact_img").attr("src", contact.img);
                 }
                 $("#contact_id").attr("value", contact.contactid);
-                $("#contact_surname").html(contact.surname);
-                $("#contact_name").html(contact.name);
+                $("#titel").html(contact.surname + ' ' + contact.name);
                 $("#contact_phone").html(contact.phone);
                 $("#contact_email").html(contact.email);
                 $("#contact_road").html(contact.road);
@@ -227,14 +237,36 @@ function show_user(clickeduserid) {
         });
     });
 }
-
+//Datenvalidierung
+function validate_user(name, surname, email, phone, road, place) {
+    if (name == null && name == "" && name == " ") {
+        return false;
+    }
+    else if (surname == null && surname == "" && surname == " ") {
+        return false;
+    }
+    else if (email == null && email == "" && email == " ") {
+        return false;
+    }
+    else if (phone == null && phone == "" && phone == " ") {
+        return false;
+    }
+    else if (road == null && road == "" && road == " ") {
+        return false;
+    }
+    else if (place == null && place == "" && place == " ") {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
 //Kompakt dank guten Klassenfunktionen
 function remove_user(contactid) {
     var temp = new Kontakt();
     temp.setContactID(contactid);
     users.deleteContact(temp);
 }
-
 //Kompakt dank guten Klassenfunktionen
 function remove_group(groupid) {
     var temp = new Group();
@@ -290,19 +322,23 @@ function edit_group(clickedgroupid) {
                 case "edit_group_save":
                     var group_img = $("#group_img").attr("src");
                     var group_name = $("#group_name").val();
-                    users.addGroup(new Group(group_name, group_img));
-                    save_firebase();
-                    show_grouplist();
+                    if (validate_group(group_name)) {
+                        users.addGroup(new Group(group_name, group_img));
+                        save_firebase();
+                        show_grouplist();
+                    }
+                    else {
+                        alert("Überprüfe Eingaben");
+                    }
                     break;
                 default:
-                    alert("Default");
                     break;
                 }
             });
         });
         $.get("html/pages/editgroup.html", function (data) {
             $("#content").html(data);
-             //IOS Struggle mit Clickable Element
+            //IOS Struggle mit Clickable Element
             $("#group_img").attr("onclick", "void(0)");
             $("#file").attr("onclick", "void(0)");
             $("#content").on("click", "#group_img", function () {
@@ -324,12 +360,16 @@ function edit_group(clickedgroupid) {
                 case "edit_group_save":
                     var group_img = $("#group_img").attr("src");
                     var group_name = $("#group_name").val();
-                    users.getGroup(clickedgroupid).updateGroup(group_name, group_img);
-                    save_firebase();
-                    show_grouplist();
+                    if (validate_group(group_name)) {
+                        users.getGroup(clickedgroupid).updateGroup(group_name, group_img);
+                        save_firebase();
+                        show_grouplist();
+                    }
+                    else {
+                        alert("Überprüfe Eingaben");
+                    }
                     break;
                 case "edit_group_delete":
-                    alert("Delete");
                     remove_group(clickedgroupid);
                     save_firebase();
                     show_grouplist();
@@ -354,7 +394,7 @@ function edit_group(clickedgroupid) {
                     $("#group_name").val(group.name);
                 }
             });
-             //IOS Struggle mit Clickable Element
+            //IOS Struggle mit Clickable Element
             $("#group_img").attr("onclick", "void(0)");
             $("#file").attr("onclick", "void(0)");
             $("#content").on("click", "#group_img", function () {
@@ -365,6 +405,13 @@ function edit_group(clickedgroupid) {
             });
         });
     }
+}
+//Datenvalidierung
+function validate_group(name) {
+    if (name == null && name == "") {
+        return false;
+    }
+    return true;
 }
 
 function show_members(clickedgroupid) {
@@ -498,10 +545,10 @@ function add_member(clickedgroupid) {
 function remove_member(clickeduserid, clickedgroupid) {
     users.getGroup(clickedgroupid).deleteMember(users.getContact(clickeduserid));
 }
-
 //Entfernt alle Event Listener
 function turn_off_clicks() {
     localStorage.clear();
+    sessionStorage.clear();
     $("#content").off();
     $("#content").unbind();
     $("header").off();
