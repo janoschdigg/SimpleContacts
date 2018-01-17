@@ -65,15 +65,13 @@
 }
 .profilepicture{
     border-radius: 50%;
-    width: 100px;
-    max-width: 100px;
-    min-width: 100px;
-    height: 100px;
-    min-height: 100px;
-    max-height: 100px;
-    position: absolute;
-    left: 25%;
-    top: 40%;
+    width: 200px;
+    max-width: 200px;
+    min-width: 200px;
+    height: 200px;
+    min-height: 200px;
+    max-height:200px;
+   
     margin-top: 10px;
 }
 .left{
