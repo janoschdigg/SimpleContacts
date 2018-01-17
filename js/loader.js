@@ -25,7 +25,6 @@ function main_screen() {
         $("#content").html(data);
         $("#temp").html($("#contact_list"));
         $("ul").html();
-        console.log(users.contactlist);
         users.contactlist.forEach(function (contact, contactindex) {
             $("#contact_name").html(contact.surname + ' ' + contact.name);
             var memberof = "";
@@ -46,6 +45,8 @@ function main_screen() {
             $("ul").find($("*")).removeAttr('id');
         });
         $("#temp").html();
+        /*
+        OnLongClick funktionert bei IOS / Android nicht
         $("li").mousedown(function () {
             tmr = setTimeout(function () {
                 console.log($(this).attr('value'));
@@ -55,6 +56,7 @@ function main_screen() {
         }).mouseup(function () {
             clearTimeout(tmr);
         });
+        */
         $("ul").on("click", "li", function () {
             if ($(this).val() == null) {}
             else {
@@ -93,9 +95,12 @@ function edit_user(clickeduserid) {
         });
         $.get("html/pages/edituser.html", function (data) {
             $("#content").html(data);
-            $("#contact_img").on("click", function () {
+            $("#contact_img").attr("onclick", "");
+            $("#content").on("click", "#contact_img", function () {
                 var files = document.getElementById('file').files;
-                $("#file").click();
+                $("#file").click().on("change", function () {
+                    getBase64(this.files[0], "user");
+                });
             });
         });
     }
@@ -135,7 +140,9 @@ function edit_user(clickeduserid) {
             $("#content").html(data);
             users.contactlist.forEach(function (contact, contactindex) {
                 if (clickeduserid == contact.contactid) {
-                    if (contact.img == null) {}
+                    if (contact.img == null) {
+
+                    }
                     else {
                         $("#contact_img").attr("src", contact.img);
                     }
@@ -148,7 +155,7 @@ function edit_user(clickeduserid) {
                     $("#contact_place").val(contact.place);
                 }
             });
-            $("#contact_img").css("cursor", "pointer");
+            $("#contact_img").attr("onclick", "");
             $("#content").on("click", "#contact_img", function () {
                 var files = document.getElementById('file').files;
                 $("#file").click().on("change", function () {
@@ -288,7 +295,7 @@ function edit_group(clickedgroupid) {
         });
         $.get("html/pages/editgroup.html", function (data) {
             $("#content").html(data);
-            $("#group_img").css("cursor", "pointer");
+            $("#group_img").attr("onclick", "");
             $("#content").on("click", "#group_img", function () {
                 var files = document.getElementById('file').files;
                 $("#file").click().on("change", function () {
@@ -339,7 +346,7 @@ function edit_group(clickedgroupid) {
                     $("#group_name").val(group.name);
                 }
             });
-            $("#group_img").css("cursor", "pointer");
+            $("#group_img").attr("onclick", "");
             $("#content").on("click", "#group_img", function () {
                 var files = document.getElementById('file').files;
                 $("#file").click().on("change", function () {
