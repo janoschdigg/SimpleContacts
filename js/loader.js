@@ -222,9 +222,10 @@ function show_grouplist() {
         $("ul").html();
         console.log(users.grouplist);
         users.grouplist.forEach(function (group, groupindex) {
-            if(group.img == null) {
+            if (group.img == null) {
                 $("#group_img").attr("src", "img/group.png");
-            } else {
+            }
+            else {
                 $("#group_img").attr("src", group.img);
             }
             $("#group_name").html(group.name);
@@ -242,7 +243,6 @@ function show_grouplist() {
     });
 }
 
-//TEst
 function edit_group(clickedgroupid) {
     turn_off_clicks();
     if (clickedgroupid == null) {
@@ -261,6 +261,9 @@ function edit_group(clickedgroupid) {
                     users.addGroup(new Group(group_name, group_img));
                     save_firebase();
                     show_grouplist();
+                    break;
+                default:
+                    alert("Default");
                     break;
                 }
             });
@@ -288,6 +291,12 @@ function edit_group(clickedgroupid) {
                     var group_img = $("#group_img").attr("src");
                     var group_name = $("#group_name").val();
                     users.getGroup(clickedgroupid).updateGroup(group_name, group_img);
+                    save_firebase();
+                    show_grouplist();
+                    break;
+                case "edit_group_delete":
+                    alert("Delete");
+                    remove_group(clickedgroupid);
                     save_firebase();
                     show_grouplist();
                     break;
