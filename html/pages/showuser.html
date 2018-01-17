@@ -1,0 +1,65 @@
+ <img class="editprofile" src="img/profile.png" alt="Profilbild" id="contact_img">
+
+ <div class="button-bar" style="width:90%; margin-left: 5%; margin-bottom: 20px;">
+    <div class=" button-bar__item">
+      <button onclick="anrufen()" class="button-bar__button">Anrufen</button>
+    </div>
+    <div class=" button-bar__item">
+      <button onclick="message()" class="button-bar__button">Nachricht</button>
+    </div>
+    <div class=" button-bar__item">
+      <button onclick="mail()" class="button-bar__button">Mail</button>
+    </div>
+  </div>
+  <script type="text/javascript">
+    function anrufen()
+    {
+        window.open("tel:+41716551506");
+    }
+    function mail()
+    {
+        window.open("mailto:janosch@gmx.ch");
+    }
+    function message()
+    {
+        window.open("sms:+41716551506");
+    }
+  </script>
+
+<div id="contact_id"></div>
+
+
+    <div class="form">
+        <ul class="list">
+            <li class="list__item">
+                <div class="list__item__center">
+                    <input type="text" class="text-input" placeholder="Vorname" id="contact_surname" disabled>
+                </div>
+            </li>
+            <li class="list__item">
+                <div class="list__item__center">
+                    <input type="text" class="text-input" placeholder="Nachname" id="contact_name" disabled>
+                </div>
+            </li>
+            <li class="list__item">
+                <div class="list__item__center">
+                    <input type="text" pattern="[0-9]*" class="text-input" placeholder="Telefon" id="contact_phone" disabled>
+                </div>
+            </li>
+            <li class="list__item">
+                <div class="list__item__center">
+                    <input type="email" class="text-input" placeholder="E-Mail" id="contact_email" disabled>
+                </div>
+            </li>
+            <li class="list__item">
+                <div class="list__item__center">
+                    <input type="text" class="text-input" placeholder="Strasse" id="contact_road" disabled>
+                </div>
+            </li>
+            <li class="list__item">
+                <div class="list__item__center">
+                    <input type="text" class="text-input" placeholder="PLZ/ Ort" id="contact_place" disabled>
+                </div>
+            </li>
+        </ul>
+    </div>
