@@ -202,12 +202,12 @@ function show_user(clickeduserid) {
                     $("#contact_img").attr("src", contact.img);
                 }
                 $("#contact_id").attr("value", contact.contactid);
-                $("#contact_surname").val(contact.surname);
-                $("#contact_name").val(contact.name);
-                $("#contact_phone").val(contact.phone);
-                $("#contact_email").val(contact.email);
-                $("#contact_road").val(contact.road);
-                $("#contact_place").val(contact.place);
+                $("#contact_surname").html(contact.surname);
+                $("#contact_name").html(contact.name);
+                $("#contact_phone").html(contact.phone);
+                $("#contact_email").html(contact.email);
+                $("#contact_road").html(contact.road);
+                $("#contact_place").html(contact.place);
             }
         });
     });
