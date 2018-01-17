@@ -18,7 +18,7 @@ function Kontakt(name, surname, phone, email, road, place, img) {
     };
     this.addGroup = function (groupID) {
         if (this.groups.includes(groupID)) {
-            //TODO
+            alert(this.name + " " +this.surname + " ist schon in dieser Gruppe");
         }
         else {
             this.groups.push(groupID);
@@ -56,7 +56,7 @@ function Group(name, img) {
     };
     this.addMember = function (contact) {
         if (this.members.includes(contact.contactid)) {
-            //TODO
+            alert(contact.name + " " + contact.surname + " ist schon in dieser Gruppe");
         }
         else {
             contact.addGroup(this.groupid);
