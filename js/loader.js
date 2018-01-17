@@ -170,6 +170,7 @@ function show_user(clickeduserid) {
     turn_off_clicks();
     $.get("html/header/showuser.html", function (data) {
         $("header").html(data);
+        $("#titel").html("Show User");
         $("header").on("click", "span", function () {
             switch ($(this).attr('id')) {
             case "mainscreen":
@@ -358,7 +359,6 @@ function show_group(clickedgroupid) {
             if (clickedgroupid == group.groupid) {
                 $("#group_id").attr("value", group.groupid);
                 $("#group_name").val(group.name);
-                //$("#group_img")
             }
         });
         $("#temp").html($("#contact_list"));
@@ -399,6 +399,11 @@ function add_member(clickedgroupid) {
             if (contact.groups.includes(clickedgroupid)) {}
             else {
                 $("#contact_name").html(contact.surname + ' ' + contact.name);
+                if(contact.img == null) {
+                    $("#contact_img").attr("src", "img/profile.png");
+                } else {
+                    $("#contact_img").attr("src", contact.img);
+                }
                 $("#contact_list").attr("value", contact.contactid);
                 $("#contact_list").clone(true).appendTo($("ul"));
                 $("ul").find($("*")).removeAttr('id');
