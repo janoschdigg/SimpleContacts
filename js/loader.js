@@ -77,7 +77,6 @@ function edit_user(clickeduserid) {
             $("header").html(data);
             $("#titel").html("Neuer Kontakt");
             $("header").on("click", "span", function () {
-                console.log(users);
                 switch ($(this).attr('id')) {
                 case "edit_user_cancel":
                     main_screen();
@@ -99,6 +98,7 @@ function edit_user(clickeduserid) {
         });
         $.get("html/pages/edituser.html", function (data) {
             $("#content").html(data);
+            //IOS Struggle mit Clickable Element
             $("#contact_img").attr("onclick", "void(0)");
             $("#file").attr("onclick", "void(0)");
             $("#content").on("click", "#contact_img", function () {
@@ -146,7 +146,7 @@ function edit_user(clickeduserid) {
             users.contactlist.forEach(function (contact, contactindex) {
                 if (clickeduserid == contact.contactid) {
                     if (contact.img == null) {
-
+                        $("#contact_img"),attr("src", "img/profile.png");
                     }
                     else {
                         $("#contact_img").attr("src", contact.img);
@@ -160,6 +160,7 @@ function edit_user(clickeduserid) {
                     $("#contact_place").val(contact.place);
                 }
             });
+            //IOS Struggle mit Clickable Element
             $("#contact_img").attr("onclick", "void(0)");
             $("#file").attr("onclick", "void(0)");
             $("#content").on("click", "#contact_img", function () {
@@ -171,7 +172,7 @@ function edit_user(clickeduserid) {
         });
     }
 }
-
+//Kamera Base64 Umwandler
 function getBase64(file, what) {
     var base64;
     var reader = new FileReader();
@@ -227,12 +228,14 @@ function show_user(clickeduserid) {
     });
 }
 
+//Kompakt dank guten Klassenfunktionen
 function remove_user(contactid) {
     var temp = new Kontakt();
     temp.setContactID(contactid);
     users.deleteContact(temp);
 }
 
+//Kompakt dank guten Klassenfunktionen
 function remove_group(groupid) {
     var temp = new Group();
     temp.setGroupID(groupid);
@@ -251,7 +254,6 @@ function show_grouplist() {
         $("#content").html(data);
         $("#temp").html($("#group_list"));
         $("ul").html();
-        console.log(users.grouplist);
         users.grouplist.forEach(function (group, groupindex) {
             if (group.img == null) {
                 $("#group_img").attr("src", "img/group.png");
@@ -281,7 +283,6 @@ function edit_group(clickedgroupid) {
             $("header").html(data);
             $("#titel").html("New Group");
             $("header").on("click", "span", function () {
-                console.log(users);
                 switch ($(this).attr('id')) {
                 case "edit_group_cancel":
                     show_grouplist();
@@ -301,6 +302,7 @@ function edit_group(clickedgroupid) {
         });
         $.get("html/pages/editgroup.html", function (data) {
             $("#content").html(data);
+             //IOS Struggle mit Clickable Element
             $("#group_img").attr("onclick", "void(0)");
             $("#file").attr("onclick", "void(0)");
             $("#content").on("click", "#group_img", function () {
@@ -315,7 +317,6 @@ function edit_group(clickedgroupid) {
         $.get("html/header/editgroup.html", function (data) {
             $("header").html(data);
             $("header").on("click", "span", function () {
-                console.log(users);
                 switch ($(this).attr('id')) {
                 case "edit_group_cancel":
                     show_grouplist();
@@ -353,6 +354,7 @@ function edit_group(clickedgroupid) {
                     $("#group_name").val(group.name);
                 }
             });
+             //IOS Struggle mit Clickable Element
             $("#group_img").attr("onclick", "void(0)");
             $("#file").attr("onclick", "void(0)");
             $("#content").on("click", "#group_img", function () {
@@ -372,8 +374,6 @@ function show_members(clickedgroupid) {
         $("#content").html(data);
         $("#temp").html($("#contact_list"));
         $("ul").html();
-        console.log(users.contactlist);
-        console.log(clickedgroupid);
         users.contactlist.forEach(function (contact, contactindex) {
             if (contact.groups.includes(clickedgroupid)) {
                 $("#contact_name").html(contact.surname + ' ' + contact.name);
@@ -429,7 +429,6 @@ function show_group(clickedgroupid) {
         });
         $("#temp").html($("#contact_list"));
         $("ul").html();
-        console.log(users.contactlist);
         users.contactlist.forEach(function (contact, contactindex) {
             if (contact.groups.includes(clickedgroupid)) {
                 $("#contact_name").html(contact.name);
@@ -464,7 +463,6 @@ function add_member(clickedgroupid) {
         $("#content").html(data);
         $("#temp").html($("#contact_list"));
         $("ul").html();
-        console.log(users.contactlist);
         users.contactlist.forEach(function (contact, contactindex) {
             if (contact.groups.includes(clickedgroupid)) {}
             else {
@@ -483,8 +481,6 @@ function add_member(clickedgroupid) {
         $("#temp").html();
         $("ul").on("click", "li", function () {
             var contactid = $(this).val();
-            console.log(contactid);
-            console.log($(this).val());
             if (contactid == null) {}
             else {
                 users.grouplist.forEach(function (group, groupindex) {
@@ -492,18 +488,18 @@ function add_member(clickedgroupid) {
                         group.addMember(users.getContact(contactid));
                     }
                 });
-                console.log(users);
                 save_firebase();
                 show_group(clickedgroupid);
             }
         });
     });
 }
-
+//Kompakt dank Klassenfunktionen
 function remove_member(clickeduserid, clickedgroupid) {
     users.getGroup(clickedgroupid).deleteMember(users.getContact(clickeduserid));
 }
 
+//Entfernt alle Event Listener
 function turn_off_clicks() {
     localStorage.clear();
     $("#content").off();
