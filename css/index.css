@@ -41,11 +41,7 @@
     width: 100% !important;
 }
 .editprofile{
-    margin-left: 35%;
-    margin-bottom: 30px;
-    border-radius: 50%;
-    width:30%;;
-    margin-top: 20px;
+   
 }
 #form{
     position: absolute !important;
@@ -64,15 +60,13 @@
     font-size: 40px;
 }
 .profilepicture{
-    border-radius: 50%;
-    width: 200px;
-    max-width: 200px;
-    min-width: 200px;
-    height: 200px;
-    min-height: 200px;
-    max-height:200px;
-   
-    margin-top: 10px;
+  position: relative;
+  left: 24%;
+  width: 200px;
+  height: 200px;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  display: block;
 }
 .left{
     position: absolute;
