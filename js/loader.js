@@ -254,7 +254,7 @@ function edit_group(clickedgroupid) {
     if (clickedgroupid == null) {
         $.get("html/header/editgroup.html", function (data) {
             $("header").html(data);
-            $("#secondarytitel").html("New Group");
+            $("#titel").html("New Group");
             $("header").on("click", "span", function () {
                 console.log(users);
                 switch ($(this).attr('id')) {
