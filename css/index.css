@@ -1,4 +1,10 @@
-
+.unvisible
+{
+  display: none !important;
+}
+.visible{
+  display: block !important;
+}
 .bt1{
   position: absolute;
   width: 25% !important;
