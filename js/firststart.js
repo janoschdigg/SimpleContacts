@@ -8,6 +8,23 @@ var config = {
     , messagingSenderId: "304869102374"
 };
 firebase.initializeApp(config);
+
+//Signup
+function signup()
+{
+    var bt = document.getElementById('signup');
+    bt.classList.add('unvisible');
+
+    var mail = document.getElementById('email');
+    mail.value="";
+
+    var pw1 = document.getElementById('password');
+    pw1.value="";
+
+    var pw2 = document.getElementById('password2');
+    pw2.classList.add('visible');
+}
+
 //Setup Login
 function setup_login() {
     turn_off_clicks();
