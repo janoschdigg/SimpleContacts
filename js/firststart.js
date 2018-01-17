@@ -12,17 +12,37 @@ firebase.initializeApp(config);
 //Signup
 function signup()
 {
+    turn_off_clicks();
+
+    $("#login").on("click",setup_signup);
+
+    $("#email").attr("value","");
+    $("#password").attr("value","");
+
     var bt = document.getElementById('signup');
     bt.classList.add('unvisible');
 
-    var mail = document.getElementById('email');
-    mail.value="";
-
-    var pw1 = document.getElementById('password');
-    pw1.value="";
-
     var pw2 = document.getElementById('password2');
     pw2.classList.add('visible');
+
+   
+}
+
+function setup_signup()
+{
+    var y = $("#password").val();
+    var x = $("#password2").val();
+
+    if(x == y)
+    {
+        create_firebase($("#email").attr("value"),$("#password").attr("value"));
+        create_firstdb();
+        start_firebase($("#email").attr("value"),$("#password").attr("value"));
+    }
+    else{
+        alert("Die Passwörter stimmen nicht überein!");
+    }
+    
 }
 
 //Setup Login
