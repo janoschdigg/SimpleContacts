@@ -242,6 +242,7 @@ function show_grouplist() {
     });
 }
 
+//TEst
 function edit_group(clickedgroupid) {
     turn_off_clicks();
     if (clickedgroupid == null) {
