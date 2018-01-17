@@ -68,6 +68,10 @@ function main_screen() {
 
 function edit_user(clickeduserid) {
     turn_off_clicks();
+    /*
+    Habe ich so gemacht, weil wenn man einen neuen Kontakt erstellt
+    und einen Kontakt editiert das gleiche HTML gebraucht wird
+    */
     if (clickeduserid == null) {
         $.get("html/header/edituser.html", function (data) {
             $("header").html(data);
@@ -97,6 +101,7 @@ function edit_user(clickeduserid) {
             $("#content").html(data);
             $("#contact_img").attr("onclick", "");
             $("#content").on("click", "#contact_img", function () {
+                alert("Test");
                 var files = document.getElementById('file').files;
                 $("#file").click().on("change", function () {
                     getBase64(this.files[0], "user");
@@ -157,6 +162,7 @@ function edit_user(clickeduserid) {
             });
             $("#contact_img").attr("onclick", "");
             $("#content").on("click", "#contact_img", function () {
+                alert("Test");
                 var files = document.getElementById('file').files;
                 $("#file").click().on("change", function () {
                     getBase64(this.files[0], "user");
@@ -297,6 +303,7 @@ function edit_group(clickedgroupid) {
             $("#content").html(data);
             $("#group_img").attr("onclick", "");
             $("#content").on("click", "#group_img", function () {
+                alert("Test");
                 var files = document.getElementById('file').files;
                 $("#file").click().on("change", function () {
                     getBase64(this.files[0], "group");
@@ -348,6 +355,7 @@ function edit_group(clickedgroupid) {
             });
             $("#group_img").attr("onclick", "");
             $("#content").on("click", "#group_img", function () {
+                alert("Test");
                 var files = document.getElementById('file').files;
                 $("#file").click().on("change", function () {
                     getBase64(this.files[0], "group");
