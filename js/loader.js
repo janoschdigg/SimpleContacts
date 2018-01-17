@@ -414,7 +414,8 @@ function show_group(clickedgroupid) {
         console.log(users.contactlist);
         users.contactlist.forEach(function (contact, contactindex) {
             if (contact.groups.includes(clickedgroupid)) {
-                $("#contact_name").html(contact.surname + ' ' + contact.name);
+                $("#contact_name").html( contact.name);
+                $("#contact_surname").html(contact.surname);
                 users.grouplist.forEach(function (group, groupindex) {
                     if (contact.groups.includes(group.groupid)) {
                         $("#contact_group").append(group.name);
