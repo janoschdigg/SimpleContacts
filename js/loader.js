@@ -3,8 +3,19 @@ function main_screen() {
     turn_off_clicks();
     $.get("html/header/mainscreen.html", function (data) {
         $("header").html(data);
-        $("header").on("click", "#add_user", function () {
-            edit_user(null);
+        $("header").on("click", "span", function () {
+            switch ($(this).attr('id')) {
+            case "add_user":
+                edit_user(null);
+                break;
+            case "sign_out":
+                $("#content").html();
+                $("header").html();
+                $("footer").html();
+                sign_out_firebase();
+                setup_login();
+                break;
+            }
         });
     });
     $.get("html/footer/standard.html", function (data) {
@@ -112,11 +123,11 @@ function edit_user(clickeduserid) {
                     save_firebase();
                     show_user($("#contact_id").attr('value'));
                     break;
-                    case "edit_user_delete":
-                        remove_user(clickeduserid);
-                        save_firebase();
-                        main_screen();
-                        break;
+                case "edit_user_delete":
+                    remove_user(clickeduserid);
+                    save_firebase();
+                    main_screen();
+                    break;
                 }
             });
         });
@@ -399,9 +410,10 @@ function add_member(clickedgroupid) {
             if (contact.groups.includes(clickedgroupid)) {}
             else {
                 $("#contact_name").html(contact.surname + ' ' + contact.name);
-                if(contact.img == null) {
+                if (contact.img == null) {
                     $("#contact_img").attr("src", "img/profile.png");
-                } else {
+                }
+                else {
                     $("#contact_img").attr("src", contact.img);
                 }
                 $("#contact_list").attr("value", contact.contactid);
