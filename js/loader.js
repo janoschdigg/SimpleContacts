@@ -112,6 +112,11 @@ function edit_user(clickeduserid) {
                     save_firebase();
                     show_user($("#contact_id").attr('value'));
                     break;
+                    case "edit_user_delete":
+                        remove_user(clickeduserid);
+                        save_firebase();
+                        main_screen();
+                        break;
                 }
             });
         });
