@@ -1,4 +1,7 @@
 //Firststart setup
+/*
+Dieses Konfigurationen wurden von der Google Firebase Konsole zur Verfügung gestellt
+*/
 var config = {
     apiKey: "AIzaSyATXylAdTsziUW-tJk5oFQRwp7zzjdK78Q"
     , authDomain: "simplecontacts-cb7ac.firebaseapp.com"
@@ -8,15 +11,20 @@ var config = {
     , messagingSenderId: "304869102374"
 };
 firebase.initializeApp(config);
+
 //Setup Login
 function setup_login() {
+    //Methode um Alle Klick zurücksetzten
     turn_off_clicks();
+    //Ganzen Inhalt von Header, Footer, #content löschen
     $("header").html();
     $("footer").html();
     $("#content").html();
+    //Login Formular laden
     $.get("html/pages/login.html", function (data) {
         $("#content").html(data);
     });
+    //Klick events
     $("#content").on("click", "button", function (event) {
         switch (this.getAttribute("id")) {
         case "login":
@@ -49,7 +57,7 @@ function setup_login() {
         }
     });
 }
-
+//Einfache Datenvalidierung
 function check_passwords() {
     var y = $("#password").val();
     var x = $("#password2").val();
@@ -65,6 +73,10 @@ function check_passwords() {
         alert("Passwort muss 8 oder mehr Zeichen enthalten");
     }
 }
+/*
+Methode wird nur 1x aufgerufen.
+User wird zur Autification von Firebase hinzugefügt
+*/
 
 function create_account_firebase(email, password) {
     firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
@@ -72,9 +84,13 @@ function create_account_firebase(email, password) {
         var errorMessage = error.message;
         console.log(errorCode + " " + errorMessage);
     });
+    //Methode um erste "DB" zu erstellen
     create_firstdb(email, password);
 }
 
+/*
+Erste Datenstrucktur erstellen & Mail wird versendet um "verified" zu sein
+*/
 function create_firstdb(email, password) {
     sign_in_firebase(email, password);
     firebase.auth().onAuthStateChanged(function (user) {
@@ -83,6 +99,7 @@ function create_firstdb(email, password) {
                 user.sendEmailVerification();
                 alert("Check your Email: " + user.email);
             }
+            //users wird weiter unten instanziert
             var useruid = user.uid;
             var JsonData = {
                 useruid: users
@@ -91,7 +108,7 @@ function create_firstdb(email, password) {
         }
     });
 }
-
+//Firebase einlog Methode
 function sign_in_firebase(email, password) {
     firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
         var errorCode = error.code;
@@ -99,7 +116,7 @@ function sign_in_firebase(email, password) {
         console.log(errorCode + " " + errorMessage);
     });
 }
-
+//Daten aus der Firebase zu bekommen
 function start_firebase(email, password) {
     sign_in_firebase(email, password);
     firebase.auth().onAuthStateChanged(function (user) {
@@ -113,7 +130,7 @@ function start_firebase(email, password) {
         }
     });
 }
-
+//Aus der Firebase loggen
 function sign_out_firebase() {
     turn_off_clicks();
     save_firebase();
@@ -129,7 +146,7 @@ function sign_out_firebase() {
     setup_login();
 
 }
-
+//Daten speichern
 function save_firebase() {
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
@@ -141,8 +158,15 @@ function save_firebase() {
         }
     });
 }
+
 //Leere Kontatkliste erstellen
 var users = new Users(null);
+
+/*
+Erst wenn das index.html alle externen Datein geladen hat
+werden die Methoden für den Login erstellt
+*/
+
 $(document).ready(function () {
     turn_off_clicks();
     setup_login();
