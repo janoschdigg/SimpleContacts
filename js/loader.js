@@ -2,8 +2,10 @@
 //Mainscreen
 function main_screen() {
     turn_off_clicks();
+    //Header Laden
     $.get("html/header/mainscreen.html", function (data) {
         $("header").html(data);
+        //Klick Event Handler
         $("header").on("click", "span", function () {
             switch ($(this).attr('id')) {
             case "add_user":
@@ -18,15 +20,29 @@ function main_screen() {
             }
         });
     });
+    //Wir nur 1x geladen, weil wir nur einen Footer haben
     $.get("html/footer/standard.html", function (data) {
         $("footer").html(data);
     });
+    //HTML Elemente des mainscreeens werden geladen
     $.get("html/pages/mainscreen.html", function (data) {
         $("#content").html(data);
+        /*
+        Dies ist eine Methode welche funktioniert Dynamische Listen-Items zu
+        erstellen und mit User-Daten füllen
+        */
         $("#temp").html($("#contact_list"));
         $("ul").html();
+
+        /*
+        Javascript forEach Variante, weil die Klasse auch nur Methoden in
+        JavaScript enthält und nicht JQuery, deswegen gibt es ein paar Überschneidungen
+        von JQuery & Javascirpt
+        siehe classes.js für mehr Informationen
+        */
         users.contactlist.forEach(function (contact, contactindex) {
             $("#contact_name").html(contact.surname + ' ' + contact.name);
+            // User kann ja in mehreren Gruppen sein, deswegen eine temporäre Variable
             var memberof = "";
             users.grouplist.forEach(function (group, groupindex) {
                 if (contact.groups.includes(group.groupid)) {
@@ -45,6 +61,7 @@ function main_screen() {
             $("ul").find($("*")).removeAttr('id');
         });
         $("#temp").html();
+
         /*
         OnLongClick funktionert bei IOS / Android nicht
         $("li").mousedown(function () {
@@ -57,6 +74,7 @@ function main_screen() {
             clearTimeout(tmr);
         });
         */
+        //Klick Listenet für li Elemente
         $("ul").on("click", "li", function () {
             if ($(this).val() == null) {}
             else {
@@ -69,10 +87,17 @@ function main_screen() {
 function edit_user(clickeduserid) {
     turn_off_clicks();
     /*
-    Habe ich so gemacht, weil wenn man einen neuen Kontakt erstellt
-    und einen Kontakt editiert das gleiche HTML gebraucht wird
+    Wieso ein if ?
+    Wenn ein neuer Kontakt erstellt wird
+    benötigt der auch die gleichen Elemnte wie
+    wenn man einen Kontakt editiert
+
+    Im Nachhinein sieht man sehr viel Code welcher gleich ist
+    diesen hätte man vermeiden können, konnte aber durch nicht
+    viel Erfahrung nicht berücksichtigt werden
     */
     if (clickeduserid == null) {
+        //Header laden und diesen mit Klick Listener ausstatten
         $.get("html/header/edituser.html", function (data) {
             $("header").html(data);
             $("#titel").html("Neuer Kontakt");
@@ -102,21 +127,27 @@ function edit_user(clickeduserid) {
                 }
             });
         });
+        //Content Laden
         $.get("html/pages/edituser.html", function (data) {
             $("#content").html(data);
-            //IOS Struggle mit Clickable Element
+            /*
+            IOS Struggle mit Clickable Element
+            https://stackoverflow.com/questions/35046771/jquery-click-not-working-in-ios/35047416
+            */
             $("#contact_img").attr("onclick", "void(0)");
             $("#file").attr("onclick", "void(0)");
             $("#content").on("click", "#contact_img", function () {
                 var files = document.getElementById('file').files;
                 $("#file").click();
                 $("#file").on("change", function () {
+                    //Base64 String zu sichtbaren Umwandlen
                     getBase64(this.files[0], "user");
                 });
             });
         });
     }
     else {
+        //Header Laden & mit Klick Listener
         $.get("html/header/edituser.html", function (data) {
             $("header").html(data);
             $("header").on("click", "span", function () {
@@ -558,7 +589,7 @@ function add_member(clickedgroupid) {
 function remove_member(clickeduserid, clickedgroupid) {
     users.getGroup(clickedgroupid).deleteMember(users.getContact(clickeduserid));
 }
-//Entfernt alle Event Listener
+//Entfernt alle Event Listener & Neuinitialisiert den Footer
 function turn_off_clicks() {
     localStorage.clear();
     sessionStorage.clear();
@@ -568,6 +599,10 @@ function turn_off_clicks() {
     $("header").unbind();
     $("footer").unbind();
     $("footer").off();
+    /*
+    Wir haben nur einen Footer. Und der verändert sich grundsätzlich nicht
+    deswegen haben wir den hier die Klick Events neu initialisiert
+    */
     $("footer").on("click", "label", function () {
         switch ($(this).attr('id')) {
         case "mainscreen":
