@@ -132,7 +132,12 @@ function Users(jsondata) {
             }
         });
         this.grouplist.splice(index, 1);
-    }
+    };
+    /*
+    getContact & getGroup wurden erst Später implementiert
+    Dies kann die ganzen ForEach Schleifen im Loader ersetzen
+    wurde aber nicht gemacht, weil wir keine Zeit mehr hatten
+    */
     this.getContact = function (contactid) {
         var tempContact = {};
         this.contactlist.forEach(function (contact) {
