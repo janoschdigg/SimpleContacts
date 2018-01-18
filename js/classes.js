@@ -2,6 +2,9 @@
 /*
 Kontakt Klasse
 enthält Kontaktinfos
+Anfangs hiess diese Klasse "Contact" wurde aber geändert,
+weil diese Klasse schon existierte (vermutlich Google Firebase)
+und es so Konflikte gab.
 */
 function Kontakt(name, surname, phone, email, road, place, img) {
     this.contactid = 0;
@@ -13,6 +16,7 @@ function Kontakt(name, surname, phone, email, road, place, img) {
     this.road = road;
     this.place = place;
     this.img = img;
+    //Klassenfunktionen welche die Arbeit erleichtern
     this.setContactID = function (newID) {
         this.contactid = newID;
     };
@@ -43,7 +47,7 @@ function Kontakt(name, surname, phone, email, road, place, img) {
     };
 }
 /*
-Gruppen Klasse
+Group Klasse
 enthält die Gruppeninfos
 */
 function Group(name, img) {
@@ -51,6 +55,7 @@ function Group(name, img) {
     this.name = name;
     this.img = img;
     this.members = new Array();
+    //Klassenfunktionen welche die Arbeit erleichtern
     this.setGroupID = function (newID) {
         this.groupid = newID;
     };
@@ -79,7 +84,9 @@ function Group(name, img) {
 }
 /*
 Users Klasse
-ist die ganze Liste
+- ist die ganze Liste
+- ist die wichtigste Klasse und das Kernstück vom App
+Sie enthält Klassenfunktionen die Code sparen
 */
 function Users(jsondata) {
     this.jsondata = jsondata;
@@ -87,6 +94,7 @@ function Users(jsondata) {
     this.grouplist = new Array();
     this.maxuserid = 0;
     this.maxgroupid = 0;
+    //Klassenfunktionen welche die Arbeit erleichtern
     this.addContact = function (contact) {
         contact.setContactID(this.maxuserid++);
         this.contactlist.push(contact);
@@ -156,6 +164,12 @@ function Users(jsondata) {
         });
         return tempGroup;
     };
+    /*
+    Im JSON Format können keine Funktionen gespeichert werden sondenr nur Daten
+    deswegen habe ich bei der Instanzierung das Attribut "jsondata" hinzugefügt.
+    Das sind die Daten von der Firebase, diese werden hier verabeitet in Klassen sodass
+    man die Klassenfunktionen von Groups und Kontakt nutzen kann
+    */
     if (!(this.jsondata == null)) {
         var templist = new Array();
         this.jsondata.contactlist.forEach(function (mycontact) {
