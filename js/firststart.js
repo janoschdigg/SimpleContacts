@@ -11,7 +11,6 @@ var config = {
     , messagingSenderId: "304869102374"
 };
 firebase.initializeApp(config);
-
 //Setup Login
 function setup_login() {
     //Methode um Alle Klick's zurücksetzten
@@ -77,7 +76,6 @@ function check_passwords() {
 Methode wird nur 1x aufgerufen.
 User wird zur Authentification von Firebase hinzugefügt
 */
-
 function create_account_firebase(email, password) {
     firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
         var errorCode = error.code;
@@ -87,7 +85,6 @@ function create_account_firebase(email, password) {
     //Methode um erste "DB" zu erstellen
     create_firstdb(email, password);
 }
-
 /*
 Erste Datenstrucktur erstellen & Mail wird versendet um "verified" zu sein
 */
@@ -137,13 +134,12 @@ function sign_out_firebase() {
         var errorCode = error.code;
         var errorMessage = error.message;
         console.log(errorCode + " " + errorMessage);
+        $("#content").html("");
+        $("header").html("");
+        $("footer").html("");
+        users = new Users(null);
+        setup_login();
     });
-    $("#content").html("");
-    $("header").html("");
-    $("footer").html("");
-    users = new Users(null);
-    setup_login();
-
 }
 //Daten speichern
 function save_firebase() {
@@ -157,15 +153,12 @@ function save_firebase() {
         }
     });
 }
-
 //Leere Kontatkliste erstellen
 var users = new Users(null);
-
 /*
 Erst wenn das index.html alle externen Datein geladen hat
 werden die Methoden für den Login erstellt
 */
-
 $(document).ready(function () {
     turn_off_clicks();
     setup_login();
