@@ -14,9 +14,9 @@ firebase.initializeApp(config);
 
 //Setup Login
 function setup_login() {
-    //Methode um Alle Klick zurücksetzten
+    //Methode um Alle Klick's zurücksetzten
     turn_off_clicks();
-    //Ganzen Inhalt von Header, Footer, #content löschen
+    //Ganzen Inhalt von Header, Footer und #content löschen
     $("header").html();
     $("footer").html();
     $("#content").html();
@@ -75,7 +75,7 @@ function check_passwords() {
 }
 /*
 Methode wird nur 1x aufgerufen.
-User wird zur Autification von Firebase hinzugefügt
+User wird zur Authentification von Firebase hinzugefügt
 */
 
 function create_account_firebase(email, password) {
@@ -116,7 +116,7 @@ function sign_in_firebase(email, password) {
         console.log(errorCode + " " + errorMessage);
     });
 }
-//Daten aus der Firebase zu bekommen
+//Funktion um Daten aus der Firebase zu bekommen
 function start_firebase(email, password) {
     sign_in_firebase(email, password);
     firebase.auth().onAuthStateChanged(function (user) {
@@ -130,7 +130,7 @@ function start_firebase(email, password) {
         }
     });
 }
-//Aus der Firebase loggen
+//Ausloggen aus der Firebase 
 function sign_out_firebase() {
     turn_off_clicks();
     save_firebase();
