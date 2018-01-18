@@ -241,7 +241,7 @@ function edit_user(clickeduserid) {
     }
 }
 
-//Kamera Base64 Umwandler
+//Umwandlung von File in Base 64
 function getBase64(file, what) {
     var base64;
     var reader = new FileReader();
