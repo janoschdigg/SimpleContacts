@@ -1,7 +1,7 @@
 //Verantwortlich für den Content der geladen wird & Klick Events
 //Mainscreen
 function main_screen() {
-    //Methode um Clicks neuladen sodass nur die Klick Events von der jeweiligen Funktion sind
+    //Methode um Clicks neuzuladen, sodass nur die Klick Events von der jeweiligen Funktion aktiv sind
     turn_off_clicks();
     //Header Laden
     $.get("html/header/mainscreen.html", function (data) {
@@ -21,7 +21,7 @@ function main_screen() {
             }
         });
     });
-    //Wir nur 1x geladen, weil wir nur einen Footer haben
+    //Wird nur 1x geladen, weil wir nur einen Footer haben
     $.get("html/footer/standard.html", function (data) {
         $("footer").html(data);
     });
@@ -29,8 +29,8 @@ function main_screen() {
     $.get("html/pages/mainscreen.html", function (data) {
         $("#content").html(data);
         /*
-        Dies ist eine Methode welche funktioniert Dynamische Listen-Items zu
-        erstellen und mit User-Daten füllen
+        Dies ist eine Methode welche Dynamische Listen-Items 
+        erstellt und mit User-Daten füllt
         */
         $("#temp").html($("#contact_list"));
         $("ul").html();
@@ -75,7 +75,7 @@ function main_screen() {
             clearTimeout(tmr);
         });
         */
-        //Klick Listenet für li Elemente diese enthalten die ID vom Kontakt
+        //Klick Listener für li Elemente diese enthalten die ID vom Kontakt
         $("ul").on("click", "li", function () {
             if ($(this).val() == null) {}
             else {
@@ -86,12 +86,12 @@ function main_screen() {
 }
 
 function edit_user(clickeduserid) {
-    //Methode um Clicks neuladen sodass nur die Klick Events von der jeweiligen Funktion sind
+    //Methode um Clicks neuzuladen, sodass nur die Klick Events von der jeweiligen Funktion aktiv sind
     turn_off_clicks();
     /*
     Wieso ein if ?
     Wenn ein neuer Kontakt erstellt wird
-    benötigt der auch die gleichen Elemnte wie
+    benötigt der auch die gleichen Elemente wie
     wenn man einen Kontakt editiert
 
     Im Nachhinein sieht man sehr viel Code welcher gleich ist
@@ -151,7 +151,7 @@ function edit_user(clickeduserid) {
         });
     }
     else {
-        //Header Laden & mit Klick Listener
+        //Header Laden & mit Klick Listener ausstatten
         $.get("html/header/edituser.html", function (data) {
             $("header").html(data);
             $("header").on("click", "span", function () {
@@ -298,6 +298,7 @@ function show_user(clickeduserid) {
         /*
         Nice to have's
         funktionieren nicht überall oder sogar garnicht
+        Auf IOS funktionieren Alle nict, auf Android nur der Call Button
         */
 
         $("#calltouser").on("click", function () {
@@ -349,7 +350,7 @@ function remove_group(groupid) {
 }
 
 function show_grouplist() {
-    //Methode um Clicks neuladen sodass nur die Klick Events von der jeweiligen Funktion sind
+    //Methode um Clicks neuladen, sodass nur die Klick Events von der jeweiligen Funktion aktiv sind
     turn_off_clicks();
     //Header + Klick Event
     $.get("html/header/grouplist.html", function (data) {
@@ -388,9 +389,9 @@ function show_grouplist() {
 }
 
 function edit_group(clickedgroupid) {
-    //Methode um Clicks neuladen sodass nur die Klick Events von der jeweiligen Funktion sind
+    //Methode um Clicks neuladen sodass nur die Klick Events von der jeweiligen Funktion aktiv sind
     turn_off_clicks();
-    //Siehe Edit User gleiches Prinzip, gleicher Aufbau und gleiche Schlussvolgerung
+    //Siehe Edit User gleiches Prinzip, gleicher Aufbau und gleiche Schlussfolgerung
     if (clickedgroupid == null) {
         $.get("html/header/editgroup.html", function (data) {
             $("header").html(data);
@@ -507,9 +508,9 @@ function validate_group(name) {
     }
     return true;
 }
-//Extra Methode um einfach Mitglieder zu löschen immer nur 1 pro mal
+//Extra Methode um einfach Mitglieder zu löschen immer nur 1 pro Mal
 function show_members(clickedgroupid) {
-    //Methode um Clicks neuladen sodass nur die Klick Events von der jeweiligen Funktion sind
+    //Methode um Clicks neuzuladen, sodass nur die Klick Events von der jeweiligen Funktion sind
     turn_off_clicks();
     $.get("html/pages/mainscreen.html", function (data) {
         $("#titel").append(" - Mitglied löschen");
@@ -543,7 +544,7 @@ function show_members(clickedgroupid) {
 }
 
 function show_group(clickedgroupid) {
-    //Methode um Clicks neuladen sodass nur die Klick Events von der jeweiligen Funktion sind
+    //Methode um Clicks neuzuladen, sodass nur die Klick Events von der jeweiligen aktiv Funktion sind
     turn_off_clicks();
     $.get("html/header/showgroup.html", function (data) {
         $("header").html(data);
@@ -606,7 +607,7 @@ function show_group(clickedgroupid) {
 }
 
 function add_member(clickedgroupid) {
-    //Methode um Clicks neuladen sodass nur die Klick Events von der jeweiligen Funktion sind
+    //Methode um Clicks neuzuladen, sodass nur die Klick Events von der jeweiligen Funktion aktiv sind
     turn_off_clicks();
     $.get("html/pages/mainscreen.html", function (data) {
         $("#titel").append(" - Neues Mitglied");
@@ -662,8 +663,8 @@ function turn_off_clicks() {
     $("footer").unbind();
     $("footer").off();
     /*
-    Wir haben nur einen Footer. Und der verändert sich grundsätzlich nicht
-    deswegen haben wir den hier die Klick Events neu initialisiert
+    Wir haben nur einen Footer. Und der verändert sich grundsätzlich nicht.
+    Deswegen haben wir hier die Klick Events neu initialisiert
     */
     $("footer").on("click", "label", function () {
         switch ($(this).attr('id')) {

@@ -166,9 +166,9 @@ function Users(jsondata) {
     };
     /*
     Im JSON Format können keine Funktionen gespeichert werden sondenr nur Daten
-    deswegen habe ich bei der Instanzierung das Attribut "jsondata" hinzugefügt.
+    deswegen haben wir bei der Instanzierung das Attribut "jsondata" hinzugefügt.
     Das sind die Daten von der Firebase, diese werden hier verabeitet in Klassen sodass
-    man die Klassenfunktionen von Groups und Kontakt nutzen kann
+    man die Klassenfunktionen von Groups und Kontakt nutzen kann.
     */
     if (!(this.jsondata == null)) {
         var templist = new Array();
