@@ -16,6 +16,7 @@ function main_screen() {
                 $("#content").html();
                 $("header").html();
                 $("footer").html();
+                save_firebase();
                 sign_out_firebase();
                 break;
             }
