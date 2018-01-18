@@ -130,15 +130,16 @@ function start_firebase(email, password) {
 //Ausloggen aus der Firebase 
 function sign_out_firebase() {
     turn_off_clicks();
-    firebase.auth().signOut().then(function () {}).catch(function (error) {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        console.log(errorCode + " " + errorMessage);
+    firebase.auth().signOut().then(function () {
         $("#content").html("");
         $("header").html("");
         $("footer").html("");
         users = new Users(null);
         setup_login();
+    }).catch(function (error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorCode + " " + errorMessage);
     });
 }
 //Daten speichern
