@@ -2,29 +2,15 @@
 
  <div class="button-bar" style="width:90%; margin-left: 5%; margin-bottom: 20px;">
     <div class=" button-bar__item">
-      <button onclick="anrufen()" class="button-bar__button">Anrufen</button>
+      <button onclick="anrufen()" class="button-bar__button" id="calltouser">Anrufen</button>
     </div>
     <div class=" button-bar__item">
-      <button onclick="message()" class="button-bar__button">Nachricht</button>
+      <button onclick="message()" class="button-bar__button" id="smstouser">Nachricht</button>
     </div>
     <div class=" button-bar__item">
-      <button onclick="mail()" class="button-bar__button">Mail</button>
+      <button onclick="mail()" class="button-bar__button" id="emailtouser">Mail</button>
     </div>
   </div>
-  <script type="text/javascript">
-    function anrufen()
-    {
-        window.open("tel:+41716551506");
-    }
-    function mail()
-    {
-        window.open("mailto:janosch@gmx.ch");
-    }
-    function message()
-    {
-        window.open("sms:+41716551506");
-    }
-  </script>
 
 <div id="contact_id"></div>
 

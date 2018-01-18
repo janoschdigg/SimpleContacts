@@ -109,7 +109,8 @@ function edit_user(clickeduserid) {
             $("#file").attr("onclick", "void(0)");
             $("#content").on("click", "#contact_img", function () {
                 var files = document.getElementById('file').files;
-                $("#file").click().on("change", function () {
+                $("#file").click();
+                $("#file").on("change", function () {
                     getBase64(this.files[0], "user");
                 });
             });
@@ -177,7 +178,8 @@ function edit_user(clickeduserid) {
             $("#file").attr("onclick", "void(0)");
             $("#content").on("click", "#contact_img", function () {
                 var files = document.getElementById('file').files;
-                $("#file").click().on("change", function () {
+                $("#file").click();
+                $("#file").on("change", function () {
                     getBase64(this.files[0], "user");
                 });
             });
@@ -343,7 +345,8 @@ function edit_group(clickedgroupid) {
             $("#file").attr("onclick", "void(0)");
             $("#content").on("click", "#group_img", function () {
                 var files = document.getElementById('file').files;
-                $("#file").click().on("change", function () {
+                $("#file").click();
+                $("#file").on("change", function () {
                     getBase64(this.files[0], "group");
                 });
             });
@@ -399,7 +402,8 @@ function edit_group(clickedgroupid) {
             $("#file").attr("onclick", "void(0)");
             $("#content").on("click", "#group_img", function () {
                 var files = document.getElementById('file').files;
-                $("#file").click().on("change", function () {
+                $("#file").click();
+                $("#file").on("change", function () {
                     getBase64(this.files[0], "group");
                 });
             });
