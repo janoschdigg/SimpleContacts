@@ -237,6 +237,15 @@ function show_user(clickeduserid) {
                 $("#contact_place").html(contact.place);
             }
         });
+        $("#calltouser").on("click", function () {
+            window.open("tel:" + $("#contact_phone").html());
+        });
+        $("#smstouser").on("click", function () {
+            window.open("sms:" + $("#contact_phone").html());
+        });
+        $("#emailtouser").on("click", function () {
+            window.open("mailto:" + $("#contact_email").html());
+        });
     });
 }
 //Datenvalidierung
