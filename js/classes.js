@@ -1,6 +1,6 @@
 // Alle Klassen welche in der App gebraucht werden
 /*
-Kontakt Klasse
+Kontakt Klasse 
 enthält Kontaktinfos
 */
 function Kontakt(name, surname, phone, email, road, place, img) {
