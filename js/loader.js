@@ -1,6 +1,7 @@
 //Verantwortlich für den Content der geladen wird & Klick Events
 //Mainscreen
 function main_screen() {
+    //Methode um Clicks neuladen sodass nur die Klick Events von der jeweiligen Funktion sind
     turn_off_clicks();
     //Header Laden
     $.get("html/header/mainscreen.html", function (data) {
@@ -38,7 +39,7 @@ function main_screen() {
         Javascript forEach Variante, weil die Klasse auch nur Methoden in
         JavaScript enthält und nicht JQuery, deswegen gibt es ein paar Überschneidungen
         von JQuery & Javascirpt
-        siehe classes.js für mehr Informationen
+        EDIT: siehe classes.js für mehr Informationen bezüglich forEach
         */
         users.contactlist.forEach(function (contact, contactindex) {
             $("#contact_name").html(contact.surname + ' ' + contact.name);
@@ -74,7 +75,7 @@ function main_screen() {
             clearTimeout(tmr);
         });
         */
-        //Klick Listenet für li Elemente
+        //Klick Listenet für li Elemente diese enthalten die ID vom Kontakt
         $("ul").on("click", "li", function () {
             if ($(this).val() == null) {}
             else {
@@ -85,6 +86,7 @@ function main_screen() {
 }
 
 function edit_user(clickeduserid) {
+    //Methode um Clicks neuladen sodass nur die Klick Events von der jeweiligen Funktion sind
     turn_off_clicks();
     /*
     Wieso ein if ?
@@ -130,9 +132,11 @@ function edit_user(clickeduserid) {
         //Content Laden
         $.get("html/pages/edituser.html", function (data) {
             $("#content").html(data);
-            /*
+             /*
             IOS Struggle mit Clickable Element
             https://stackoverflow.com/questions/35046771/jquery-click-not-working-in-ios/35047416
+            Kurzversion: Apple Safari / IOS versteht nur clickable Elements wenn
+            diese onclick / mousdown eine Funktion aufruft
             */
             $("#contact_img").attr("onclick", "void(0)");
             $("#file").attr("onclick", "void(0)");
@@ -163,14 +167,17 @@ function edit_user(clickeduserid) {
                     var contact_email = $("#contact_email").val();
                     var contact_road = $("#contact_road").val();
                     var contact_place = $("#contact_place").val();
-                    console.log(contact_name);
+                    //User Daten Validerung
                     if (validate_user(contact_name, contact_surname, contact_email, contact_phone, contact_road, contact_place)) {
+                        //EDIT: siehe classes.js für mehr Informationen bezüglich forEach
                         users.contactlist.forEach(function (contact, contactindex) {
                             if (contact.contactid == $("#contact_id").attr('value')) {
                                 users.contactlist[contactindex].updateContact(contact_name, contact_surname, contact_phone, contact_email, contact_road, contact_place, contact_img);
                             }
                         });
+                        //Daten Speichern in Database
                         save_firebase();
+                        //Der editierte Kontakt wird angezeigt
                         show_user($("#contact_id").attr('value'));
                     }
                     else {
@@ -178,15 +185,25 @@ function edit_user(clickeduserid) {
                     }
                     break;
                 case "edit_user_delete":
+                    /*
+                    Jetzt wird der Kontatk einfach gelöscht ohne irgendeine Warnung
+                    Vorschlag: Warnung einbauen mit Ja / Nein
+                    Edit: keine Zeit für das gehabt
+                    */
+                    //schlanke Methode
                     remove_user(clickeduserid);
+                    //Änderung in Database speichern
                     save_firebase();
+                    //Standard Screen
                     main_screen();
                     break;
                 }
             });
         });
+        //Content wird geladen mit Kontakt Informationen
         $.get("html/pages/edituser.html", function (data) {
             $("#content").html(data);
+            //EDIT: siehe classes.js für mehr Informationen bezüglich forEach
             users.contactlist.forEach(function (contact, contactindex) {
                 if (clickeduserid == contact.contactid) {
                     if (contact.img == null) {
@@ -204,7 +221,13 @@ function edit_user(clickeduserid) {
                     $("#contact_place").val(contact.place);
                 }
             });
-            //IOS Struggle mit Clickable Element
+            /*
+            IOS Struggle mit Clickable Element
+            https://stackoverflow.com/questions/35046771/jquery-click-not-working-in-ios/35047416
+            Kurzversion: Apple Safari / IOS versteht nur clickable Elements wenn
+            diese onclick / mousdown eine Funktion aufruft
+            */
+
             $("#contact_img").attr("onclick", "void(0)");
             $("#file").attr("onclick", "void(0)");
             $("#content").on("click", "#contact_img", function () {
@@ -217,6 +240,7 @@ function edit_user(clickeduserid) {
         });
     }
 }
+
 //Kamera Base64 Umwandler
 function getBase64(file, what) {
     var base64;
@@ -236,9 +260,11 @@ function getBase64(file, what) {
         console.log('Error: ', error);
     };
 }
-
+//Kontakt anzeigen
 function show_user(clickeduserid) {
+    //Methode um Clicks neuladen sodass nur die Klick Events von der jeweiligen Funktion sind
     turn_off_clicks();
+    //Header laden + Klick Events
     $.get("html/header/showuser.html", function (data) {
         $("header").html(data);
         $("header").on("click", "span", function () {
@@ -252,6 +278,7 @@ function show_user(clickeduserid) {
             };
         });
     });
+    //Content mit User Daten wird geladen
     $.get("html/pages/showuser.html", function (data) {
         $("#content").html(data);
         users.contactlist.forEach(function (contact, contactindex) {
@@ -268,6 +295,11 @@ function show_user(clickeduserid) {
                 $("#contact_place").html(contact.place);
             }
         });
+        /*
+        Nice to have's
+        funktionieren nicht überall oder sogar garnicht
+        */
+
         $("#calltouser").on("click", function () {
             window.open("tel:" + $("#contact_phone").html());
         });
@@ -281,22 +313,22 @@ function show_user(clickeduserid) {
 }
 //Datenvalidierung
 function validate_user(name, surname, email, phone, road, place) {
-    if (name == null && name == "" && name == " ") {
+    if (name == null || name == "" || name == " ") {
         return false;
     }
-    else if (surname == null && surname == "" && surname == " ") {
+    else if (surname == null || surname == "" || surname == " ") {
         return false;
     }
-    else if (email == null && email == "" && email == " ") {
+    else if (email == null || email == "" || email == " ") {
         return false;
     }
-    else if (phone == null && phone == "" && phone == " ") {
+    else if (phone == null || phone == "" || phone == " ") {
         return false;
     }
-    else if (road == null && road == "" && road == " ") {
+    else if (road == null || road == "" || road == " ") {
         return false;
     }
-    else if (place == null && place == "" && place == " ") {
+    else if (place == null || place == "" || place == " ") {
         return false;
     }
     else {
@@ -317,17 +349,21 @@ function remove_group(groupid) {
 }
 
 function show_grouplist() {
+    //Methode um Clicks neuladen sodass nur die Klick Events von der jeweiligen Funktion sind
     turn_off_clicks();
+    //Header + Klick Event
     $.get("html/header/grouplist.html", function (data) {
         $("header").html(data);
         $("header").on("click", "#add_group", function () {
             edit_group(null);
         });
     });
+    //Gleiches Prinzip wie Mainscreen, nur andere Namen
     $.get("html/pages/grouplist.html", function (data) {
         $("#content").html(data);
         $("#temp").html($("#group_list"));
         $("ul").html();
+        //EDIT: siehe classes.js für mehr Informationen bezüglich forEach
         users.grouplist.forEach(function (group, groupindex) {
             if (group.img == null) {
                 $("#group_img").attr("src", "img/group.png");
@@ -341,6 +377,7 @@ function show_grouplist() {
             $("ul").find($("*")).removeAttr('id');
         });
         $("#temp").html();
+        //Klick Listener für li Elemente diese enthalten die ID vom Kontakt
         $("ul").on("click", "li", function () {
             if ($(this).val() == null) {}
             else {
@@ -351,7 +388,9 @@ function show_grouplist() {
 }
 
 function edit_group(clickedgroupid) {
+    //Methode um Clicks neuladen sodass nur die Klick Events von der jeweiligen Funktion sind
     turn_off_clicks();
+    //Siehe Edit User gleiches Prinzip, gleicher Aufbau und gleiche Schlussvolgerung
     if (clickedgroupid == null) {
         $.get("html/header/editgroup.html", function (data) {
             $("header").html(data);
@@ -380,7 +419,12 @@ function edit_group(clickedgroupid) {
         });
         $.get("html/pages/editgroup.html", function (data) {
             $("#content").html(data);
-            //IOS Struggle mit Clickable Element
+             /*
+            IOS Struggle mit Clickable Element
+            https://stackoverflow.com/questions/35046771/jquery-click-not-working-in-ios/35047416
+            Kurzversion: Apple Safari / IOS versteht nur clickable Elements wenn
+            diese onclick / mousdown eine Funktion aufruft
+            */
             $("#group_img").attr("onclick", "void(0)");
             $("#file").attr("onclick", "void(0)");
             $("#content").on("click", "#group_img", function () {
@@ -426,6 +470,7 @@ function edit_group(clickedgroupid) {
         $.get("html/pages/editgroup.html", function (data) {
             $("#content").html(data);
             $("#secondarytitle").html("Edit Group");
+            //EDIT: siehe classes.js für mehr Informationen bezüglich forEach
             users.grouplist.forEach(function (group, groupindec) {
                 if (clickedgroupid == group.groupid) {
                     if (group.img == null) {
@@ -437,7 +482,12 @@ function edit_group(clickedgroupid) {
                     $("#group_name").val(group.name);
                 }
             });
-            //IOS Struggle mit Clickable Element
+             /*
+            IOS Struggle mit Clickable Element
+            https://stackoverflow.com/questions/35046771/jquery-click-not-working-in-ios/35047416
+            Kurzversion: Apple Safari / IOS versteht nur clickable Elements wenn
+            diese onclick / mousdown eine Funktion aufruft
+            */
             $("#group_img").attr("onclick", "void(0)");
             $("#file").attr("onclick", "void(0)");
             $("#content").on("click", "#group_img", function () {
@@ -452,19 +502,21 @@ function edit_group(clickedgroupid) {
 }
 //Datenvalidierung
 function validate_group(name) {
-    if (name == null && name == "") {
+    if (name == null || name == "" || name == " ") {
         return false;
     }
     return true;
 }
-
+//Extra Methode um einfach Mitglieder zu löschen immer nur 1 pro mal
 function show_members(clickedgroupid) {
+    //Methode um Clicks neuladen sodass nur die Klick Events von der jeweiligen Funktion sind
     turn_off_clicks();
     $.get("html/pages/mainscreen.html", function (data) {
         $("#titel").append(" - Mitglied löschen");
         $("#content").html(data);
         $("#temp").html($("#contact_list"));
         $("ul").html();
+        //EDIT: siehe classes.js für mehr Informationen bezüglich forEach
         users.contactlist.forEach(function (contact, contactindex) {
             if (contact.groups.includes(clickedgroupid)) {
                 $("#contact_name").html(contact.surname + ' ' + contact.name);
@@ -491,14 +543,17 @@ function show_members(clickedgroupid) {
 }
 
 function show_group(clickedgroupid) {
+    //Methode um Clicks neuladen sodass nur die Klick Events von der jeweiligen Funktion sind
     turn_off_clicks();
     $.get("html/header/showgroup.html", function (data) {
         $("header").html(data);
+        //EDIT: siehe classes.js für mehr Informationen bezüglich forEach
         users.grouplist.forEach(function (group, groupindex) {
             if (clickedgroupid == group.groupid) {
                 $("#titel").html(group.name);
             }
         });
+        //Klick Listener
         $("header").on("click", "span", function () {
             switch ($(this).attr('id')) {
             case "add_user":
@@ -512,6 +567,7 @@ function show_group(clickedgroupid) {
     });
     $.get("html/pages/showgroup.html", function (data) {
         $("#content").html(data);
+        //EDIT: siehe classes.js für mehr Informationen bezüglich forEach
         users.grouplist.forEach(function (group, groupindex) {
             if (clickedgroupid == group.groupid) {
                 $("#group_id").attr("value", group.groupid);
@@ -520,10 +576,12 @@ function show_group(clickedgroupid) {
         });
         $("#temp").html($("#contact_list"));
         $("ul").html();
+        //EDIT: siehe classes.js für mehr Informationen bezüglich forEach
         users.contactlist.forEach(function (contact, contactindex) {
             if (contact.groups.includes(clickedgroupid)) {
                 $("#contact_name").html(contact.name);
                 $("#contact_surname").html(contact.surname);
+                //EDIT: siehe classes.js für mehr Informationen bezüglich forEach
                 users.grouplist.forEach(function (group, groupindex) {
                     if (contact.groups.includes(group.groupid)) {
                         $("#contact_group").append(group.name);
@@ -548,12 +606,14 @@ function show_group(clickedgroupid) {
 }
 
 function add_member(clickedgroupid) {
+    //Methode um Clicks neuladen sodass nur die Klick Events von der jeweiligen Funktion sind
     turn_off_clicks();
     $.get("html/pages/mainscreen.html", function (data) {
         $("#titel").append(" - Neues Mitglied");
         $("#content").html(data);
         $("#temp").html($("#contact_list"));
         $("ul").html();
+        //EDIT: siehe classes.js für mehr Informationen bezüglich forEach
         users.contactlist.forEach(function (contact, contactindex) {
             if (contact.groups.includes(clickedgroupid)) {}
             else {
@@ -574,6 +634,7 @@ function add_member(clickedgroupid) {
             var contactid = $(this).val();
             if (contactid == null) {}
             else {
+                //EDIT: siehe classes.js für mehr Informationen bezüglich forEach
                 users.grouplist.forEach(function (group, groupindex) {
                     if (group.groupid == clickedgroupid) {
                         group.addMember(users.getContact(contactid));
@@ -589,7 +650,8 @@ function add_member(clickedgroupid) {
 function remove_member(clickeduserid, clickedgroupid) {
     users.getGroup(clickedgroupid).deleteMember(users.getContact(clickeduserid));
 }
-//Entfernt alle Event Listener & Neuinitialisiert den Footer
+
+//Entfernt alle Event Listener damit nichts 2x ausgeführt wird
 function turn_off_clicks() {
     localStorage.clear();
     sessionStorage.clear();
@@ -614,3 +676,9 @@ function turn_off_clicks() {
         };
     });
 }
+
+
+/*
+Es gibt sehr viel Code wo sich wiederholt und gleich ist.
+Bei mehr Zeit & mehr Erfahrung hätte dies verhindert werden können
+*/
