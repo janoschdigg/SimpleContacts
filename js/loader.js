@@ -138,6 +138,9 @@ function edit_user(clickeduserid) {
             Kurzversion: Apple Safari / IOS versteht nur clickable Elements wenn
             diese onclick / mousdown eine Funktion aufruft
             */
+            //Andere Methode für Kamera Funktion (Keine Zeit mehr)
+            //navigator.camera.getPicture(cameraSuccess, cameraError, cameraOptions);
+
             $("#contact_img").attr("onclick", "void(0)");
             $("#file").attr("onclick", "void(0)");
             $("#content").on("click", "#contact_img", function () {
